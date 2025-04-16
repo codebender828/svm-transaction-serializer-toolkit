@@ -1,6 +1,8 @@
-# Squads Transaction Serialization Toolkit
+# SVM Transaction Serialization Toolkit
 
-This toolkit helps you serialize Solana or Sonic transactions into different formats (Base58 and Base64) that can be used with Squads Protocol. It's particularly useful for creating transactions that can be proposed to Squads vaults.
+This toolkit helps you serialize Solana or Sonic transactions into different formats (Base58 and Base64) that can be used with Squads Protocol or with Explorer Inspection.
+
+It's particularly useful for creating transactions that can be proposed to Squads vaults via the UI or to Kronus UI.
 
 ## Prerequisites
 
