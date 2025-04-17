@@ -19,9 +19,13 @@ const FEE_PAYER_PUBKEY = "8jsqTz5BgzMEzZuPaQ2VygtUUjTPchTvVFx2Bd1Ld2fi"; // Repl
 const RECIPIENT_PUBKEY = new PublicKey(
   "6MT77QhWFm6KFtKkT3MuxSRvsAFD7tdeqXaUs8a1Te4C"
 );
+// Replace this with your token's mint address.
+// By default, We shall using SONIC's mint address on Sonic Mainnet
+// Ref: https://explorer.sonic.game/address/mrujEYaN1oyQXDHeYNxBYpxWKVkQ2XsGxfznpifu4aL
+const TOKEN_MINT_ADDRESS = "mrujEYaN1oyQXDHeYNxBYpxWKVkQ2XsGxfznpifu4aL";
 
 // SPL Token Configuration
-const TOKEN_MINT = new PublicKey("mrujEYaN1oyQXDHeYNxBYpxWKVkQ2XsGxfznpifu4aL"); // Replace with your token's mint address
+const TOKEN_MINT = new PublicKey(TOKEN_MINT_ADDRESS);
 
 const connection = new Connection(RPC_ENDPOINT);
 
@@ -32,7 +36,7 @@ const sourceTokenAccount = await getAssociatedTokenAddress(
   // Need to allow the owner off-curve since
   // we are transferring from a Vault PDA
   true,
-  TOKEN_2022_PROGRAM_ID
+  TOKEN_2022_PROGRAM_ID // Token program ID ($SONIC on Sonic Mainnet uses Token-2022 standard)
 );
 
 // Get the associated token account address for the recipient
@@ -40,7 +44,7 @@ const destinationTokenAccount = await getAssociatedTokenAddress(
   TOKEN_MINT,
   RECIPIENT_PUBKEY,
   true,
-  TOKEN_2022_PROGRAM_ID
+  TOKEN_2022_PROGRAM_ID // Token program ID ($SONIC on Sonic Mainnet uses Token-2022 standard)
 );
 
 // Check if the destination token account exists

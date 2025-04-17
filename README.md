@@ -2,13 +2,13 @@
 
 This toolkit helps you serialize Solana or Sonic transactions into different formats (Base58 and Base64) that can be used with Squads Protocol or with Explorer Inspection.
 
-It's particularly useful for creating transactions that can be proposed to Squads vaults via the UI or to Kronus UI.
+It's particularly useful for creating transactions that can be proposed to Squads or Kronus vaults via their respective UIs.
 
 ## Prerequisites
 
 - [Bun](https://bun.sh) installed (v1.1.18 or later)
 - A Solana wallet with some SOL
-- A Squads vault address
+- A Squads or Kronus vault address
 
 ## Installation
 
@@ -26,7 +26,7 @@ Before running the SOL transfer example, configure:
 
 ```typescript
 const RPC_ENDPOINT = "https://api.mainnet-alpha.sonic.game"; // Your Solana RPC endpoint
-const FEE_PAYER_PUBKEY = "YOUR_VAULT_PUBKEY"; // Your Squads vault address
+const FEE_PAYER_PUBKEY = "YOUR_VAULT_PUBKEY"; // Your Squads / Kronus vault address
 const RECIPIENT_PUBKEY = new PublicKey("RECIPIENT_ADDRESS"); // The address that will receive the SOL transfer
 ```
 
@@ -40,6 +40,16 @@ const FEE_PAYER_PUBKEY = "YOUR_VAULT_PUBKEY"; // Your Squads / Kronus vault addr
 const RECIPIENT_PUBKEY = new PublicKey("RECIPIENT_ADDRESS"); // The address that will receive the tokens
 const TOKEN_MINT = new PublicKey("YOUR_TOKEN_MINT_ADDRESS"); // The mint address of the token you want to transfer
 ```
+
+Important: You need to know which token program your token uses:
+
+- Legacy Token Program: `TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA`
+- Token-2022 Program: `TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb`
+
+The example uses Token-2022 by default, which is used by $SONIC on Sonic Mainnet. If your token uses the Legacy Token Program, you'll need to:
+
+1. Import `TOKEN_PROGRAM_ID` instead of `TOKEN_2022_PROGRAM_ID`
+2. Update the program ID in `getAssociatedTokenAddress` and `createTransferInstruction` calls
 
 ## Usage
 
@@ -55,7 +65,7 @@ This will:
 
 1. Create a transaction that transfers 0.001 SOL from your vault to the specified recipient
 2. Serialize it to Base64
-3. Convert it to Base58 format for Squads
+3. Convert it to Base58 format for Squads/Kronus
 
 ### SPL Token Transfer Example
 
@@ -70,9 +80,7 @@ This will:
 1. Create a transaction that transfers SPL tokens from your vault to the specified recipient
 2. Automatically create an associated token account for the recipient if it doesn't exist
 3. Serialize it to Base64
-4. Convert it to Base58 format for Squads
-
-Note: The SPL token example uses the Token-2022 program, which is used by $SONIC on Sonic Mainnet.
+4. Convert it to Base58 format for Squads/Kronus
 
 ## Output
 
@@ -85,7 +93,7 @@ When you run either script, you'll see:
 ## Using the Output
 
 1. Copy the Base58 transaction string
-2. Go to your Squads interface
+2. Go to your Squads or Kronus interface
 3. Use the "Propose Transaction" feature
 4. Paste the Base58 transaction string
 5. Select your vault (the one you configured in `FEE_PAYER_PUBKEY`)
@@ -109,6 +117,7 @@ If you encounter issues:
 4. Check that you have the correct permissions on the vault
 5. For SPL token transfers, verify that:
    - The token mint address is correct
+   - You're using the correct token program (Legacy or Token-2022)
    - The source token account exists and has enough tokens
    - The fee payer has permission to transfer from the source account
 
