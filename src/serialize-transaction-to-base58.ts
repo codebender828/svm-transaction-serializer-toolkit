@@ -1,6 +1,5 @@
 import {
   Connection,
-  Keypair,
   MessageV0,
   PublicKey,
   Transaction,
@@ -14,17 +13,15 @@ import bs58 from "bs58";
 
 // Configuration - Replace these values as needed
 const RPC_ENDPOINT = "https://api.mainnet-alpha.sonic.game";
-// Replace with your Vault address for Kronus or Squads UI
-const FEE_PAYER_PUBKEY = "22H68uiLZeu3Pvz2ZuDjoGXeJkbVK4VShJE3SR1zd4Cw";
-// Replace with your recipient public key
+const FEE_PAYER_PUBKEY = "8jsqTz5BgzMEzZuPaQ2VygtUUjTPchTvVFx2Bd1Ld2fi"; // Replace with your Vault address for Kronus or Squads UI
 const RECIPIENT_PUBKEY = new PublicKey(
-  "JDXSdmTg22GdKgKH5QM2g2ftT1mpiQqLHuW9wLuvKBmU"
+  "6MT77QhWFm6KFtKkT3MuxSRvsAFD7tdeqXaUs8a1Te4C"
 );
 
 const connection = new Connection(RPC_ENDPOINT);
 
-// Create a transfer instruction
-const transferInstruction = SystemProgram.transfer({
+// Create SOL Transfer instruction
+const solTransferInstruction = SystemProgram.transfer({
   fromPubkey: new PublicKey(FEE_PAYER_PUBKEY),
   toPubkey: RECIPIENT_PUBKEY,
   lamports: 0.001 * LAMPORTS_PER_SOL, // Transfer 0.001 SOL
@@ -34,7 +31,7 @@ const transferInstruction = SystemProgram.transfer({
 const message = new TransactionMessage({
   payerKey: new PublicKey(FEE_PAYER_PUBKEY),
   recentBlockhash: (await connection.getLatestBlockhash()).blockhash,
-  instructions: [transferInstruction],
+  instructions: [solTransferInstruction],
 }).compileToV0Message();
 
 // Create and serialize the versioned transaction
